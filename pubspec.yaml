@@ -35,9 +35,9 @@ flutter:
   assets:
     - assets/images/  # 이미지 리소스 경로 추가
 
-  # fonts:
-  #   - family: CustomFont
-  #     fonts:
-  #       - asset: assets/fonts/CustomFont-Regular.ttf
-  #       - asset: assets/fonts/CustomFont-Bold.ttf
-  #         weight: 700
+
+  fonts:
+    - family: "동국체"
+      fonts:
+        - asset: assets/DONGGUK-UNIVERSITY.otf
+
