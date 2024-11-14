@@ -10,6 +10,17 @@ class HomePage extends StatelessWidget {
         automaticallyImplyLeading: false,
         actions: [
           TextButton(
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              child: Text("홈", style: TextStyle(color: Colors.black))),
+          SizedBox(
+            width: 30,
+          ),
+          TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/course');
               },

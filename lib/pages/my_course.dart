@@ -10,13 +10,21 @@ class MyCourse extends StatelessWidget {
         automaticallyImplyLeading: false,
         actions: [
           TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              child: Text("홈", style: TextStyle(color: Colors.white))),
+          SizedBox(
+            width: 30,
+          ),
+          TextButton(
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
               ),
               onPressed: () {
                 Navigator.pushNamed(context, '/course');
               },
-              child: Text("수강 과목", style: TextStyle(color: Colors.white))),
+              child: Text("수강 과목", style: TextStyle(color: Colors.black))),
           SizedBox(
             width: 30,
           ),
