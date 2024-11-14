@@ -58,25 +58,37 @@ class MyPage extends StatelessWidget {
             // 내 정보 하단 메뉴
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    // 닉네임 설정 페이지로 이동
-                  },
-                  child: Text('닉네임 설정', style: TextStyle(color: Colors.orange)),
-                ),
-                TextButton(
-                  onPressed: () {
-                    // 이용 안내 페이지로 이동
-                  },
-                  child: Text('이용 안내', style: TextStyle(color: Colors.orange)),
-                ),
-              ],
+              children: [],
             ),
             SizedBox(height: 20),
             TextButton(
               onPressed: () {
-                // 로그아웃 기능 추가
+                // 로그아웃 버튼을 클릭하면 로그인 화면으로 이동
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('로그아웃'),
+                      content: Text('로그아웃 하시겠습니까?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context); // 다이얼로그 닫기
+                          },
+                          child: Text('취소'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(context, "/login");
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange),
+                          child: Text("로그아웃"),
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
               child: Text('로그아웃', style: TextStyle(color: Colors.orange)),
             ),

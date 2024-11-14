@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'question/question_write.dart';
+import 'havruta_write.dart';
 
 class Havruta extends StatelessWidget {
   final List<Question> questions = [
@@ -108,7 +108,7 @@ class Havruta extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => question_write()),
+                      MaterialPageRoute(builder: (context) => HavrutaWrite()),
                     );
                   },
                   child: Row(

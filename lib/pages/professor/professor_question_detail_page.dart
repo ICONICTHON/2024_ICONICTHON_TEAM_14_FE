@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class QuestionDetailPage extends StatelessWidget {
+class ProfessorQuestionDetailPage extends StatelessWidget {
   final String subjectName; // 과목명
   final String professorName; // 교수님 성함
   final String questionTitle; // 질문 제목
@@ -10,7 +10,7 @@ class QuestionDetailPage extends StatelessWidget {
   final int viewCount; // 조회수
   final int commentCount; // 답변 수
 
-  QuestionDetailPage({
+  ProfessorQuestionDetailPage({
     required this.subjectName,
     required this.professorName,
     required this.questionTitle,

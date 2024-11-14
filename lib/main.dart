@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         '/createPost': (context) => CreatePostPage(),
         '/createAccount': (context) => CreateAccountPage(),
         '/mypage': (context) => MyPage(),
-        '/course': (context) => MyCourse(),
+        '/course': (context) => MyCoursePage(),
         '/havruta': (context) => Havruta(),
         '/professor': (context) => ProfessorAnswerPage(),
       },

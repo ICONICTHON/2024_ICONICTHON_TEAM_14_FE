@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../havruta/question/question_detail_page.dart'; // QuestionDetailPage import 추가
+import 'professor_question_detail_page.dart';
+// QuestionDetailPage import 추가
 
 class ProfessorDetailPage extends StatelessWidget {
   final String professorName;
@@ -137,7 +138,7 @@ class ProfessorDetailPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => QuestionDetailPage(
+                    builder: (context) => ProfessorQuestionDetailPage(
                       subjectName: subjectName,
                       professorName: professorName,
                       questionTitle: title,
