@@ -1,0 +1,43 @@
+name: havruta_app
+description: A Flutter app for managing posts and comments with FastAPI backend.
+
+# Flutter 버전 설정
+environment:
+  sdk: ">=3.0.0 <4.0.0"  # Flutter SDK 버전 확인 후 필요 시 수정
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Flutter 기본 패키지
+  cupertino_icons: ^1.0.5  # iOS 아이콘
+
+  # HTTP 통신을 위한 패키지 (백엔드와의 통신)
+  http: ^1.2.2
+
+  # 상태 관리를 위한 패키지 (필요에 따라 provider나 Riverpod 사용 가능)
+  provider: ^6.0.5
+
+  # Firebase Auth 등 추가 인증을 위한 라이브러리
+  # firebase_auth: ^4.3.0
+
+  # 로컬 저장소 (선택사항)
+  # shared_preferences: ^2.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# Flutter 애셋 파일 설정 (이미지, 폰트 등)
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/  # 이미지 리소스 경로 추가
+
+  # fonts:
+  #   - family: CustomFont
+  #     fonts:
+  #       - asset: assets/fonts/CustomFont-Regular.ttf
+  #       - asset: assets/fonts/CustomFont-Bold.ttf
+  #         weight: 700
