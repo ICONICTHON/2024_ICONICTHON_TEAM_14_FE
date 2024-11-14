@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'pages/before_login.dart';
 import 'package:provider/provider.dart';
 import 'api/api_service.dart'; // ApiService import
@@ -9,6 +10,10 @@ import 'pages/create_post_page.dart'; // 게시물 작성 페이지
 import 'models/post.dart'; // Post 클래스를 가져옵니다.
 
 import 'pages/create_account.dart';
+import 'pages/havruta.dart';
+import 'pages/my_course.dart';
+import 'pages/professor.dart';
+import 'pages/mypage.dart';
 
 void main() {
   runApp(
@@ -36,6 +41,10 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(),
         '/createPost': (context) => CreatePostPage(),
         '/createAccount': (context) => CreateAccountPage(),
+        '/mypage': (context) => MyPage(),
+        '/course': (context) => MyCourse(),
+        '/havruta': (context) => Havruta(),
+        '/professor': (context) => Professor(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/detail') {

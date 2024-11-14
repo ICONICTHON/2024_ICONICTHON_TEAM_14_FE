@@ -9,10 +9,10 @@ class CreateAccountPage extends StatelessWidget {
     TextEditingController namecontroller = TextEditingController();
     TextEditingController emailcontroller = TextEditingController();
     return Scaffold(
-      backgroundColor: Color(0xffF5F5DC),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("회원가입"),
-        backgroundColor: Color(0xffB6A28E),
+        backgroundColor: Color(0xffDB7223),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -44,15 +44,25 @@ class CreateAccountPage extends StatelessWidget {
                     controller: emailcontroller,
                     decoration: InputDecoration(labelText: '이메일'),
                   ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      //TODO
-                      //여기에 컨트롤러들 이용해서 데이터 전송
-                      // 로그인 후 홈 페이지로 이동
-                      Navigator.pushReplacementNamed(context, '/login');
-                    },
-                    child: Text("계정 생성"),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // 로그인 후 홈 페이지로 이동
+                        Navigator.pushReplacementNamed(context, '/login');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xffDB7223), // 주황색 배경
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0), // 사각형 버튼
+                        ),
+                      ),
+                      child: Text(
+                        "계정 생성",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -5,47 +5,89 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF5F5DC),
+      backgroundColor: Colors.white, // 배경을 흰색으로 변경
       appBar: AppBar(
         title: Text("로그인"),
-        backgroundColor: Color(0xffB6A28E),
+        backgroundColor: Color(0xffDB7223), // 주황색 배경
         automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 400,
-              child: Column(
-                children: [
-                  TextField(
-                    decoration: InputDecoration(labelText: '아이디'),
+        child: Center(
+          child: SizedBox(
+            width: 400,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // 로고 이미지
+                Image.asset(
+                  'assets/images/logo2.png', // 로고 이미지 경로
+                  height: 100, // 원하는 크기로 설정
+                ),
+                SizedBox(height: 40),
+                // 아이디 입력 필드
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: '아이디',
+                    border: OutlineInputBorder(),
                   ),
-                  TextField(
-                    decoration: InputDecoration(labelText: '비밀번호'),
-                    obscureText: true,
+                ),
+                SizedBox(height: 16),
+                // 비밀번호 입력 필드
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: '비밀번호',
+                    border: OutlineInputBorder(),
                   ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
+                  obscureText: true,
+                ),
+                SizedBox(height: 20),
+                // 로그인 버튼
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
                     onPressed: () {
                       // 로그인 후 홈 페이지로 이동
-                      Navigator.pushReplacementNamed(context, '/home');
+                      Navigator.pushNamed(context, '/home');
                     },
-                    child: Text("로그인"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xffDB7223), // 주황색 배경
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0), // 사각형 버튼
+                      ),
+                    ),
+                    child: Text(
+                      "로그인",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
                   ),
-                  ElevatedButton(
+                ),
+                SizedBox(height: 10),
+                // 회원가입 버튼
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
                     onPressed: () {
-                      // 로그인 후 홈 페이지로 이동
+                      // 회원가입 페이지로 이동
                       Navigator.pushNamed(context, '/createAccount');
                     },
-                    child: Text("회원가입"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey, // 회색 배경
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0), // 사각형 버튼
+                      ),
+                    ),
+                    child: Text(
+                      "회원가입",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
