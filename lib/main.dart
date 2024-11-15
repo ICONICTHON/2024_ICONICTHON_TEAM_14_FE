@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'likedpage.dart';
 import 'pages/aboutLogin/before_login.dart';
 import 'package:provider/provider.dart';
 import 'api/api_service.dart'; // ApiService import
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         '/course': (context) => MyCoursePage(),
         '/havruta': (context) => Havruta(),
         '/professor': (context) => ProfessorAnswerPage(),
+        '/liked': (context) => Likedpage(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/detail') {

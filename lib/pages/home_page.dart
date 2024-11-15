@@ -95,9 +95,8 @@ class HomePage extends StatelessWidget {
                   SizedBox(height: 20),
                   Column(
                     children: [
-                      _buildMenuButton(Icons.question_answer, "내가 쓴 질문"),
-                      _buildMenuButton(Icons.reply, "내가 답변한 질문"),
-                      _buildMenuButton(Icons.star, "관심있는 질문"),
+                      _buildMenuButton(Icons.question_answer, "내 활동", context),
+                      _buildMenuButton(Icons.star, "관심있는 질문", context),
                     ],
                   ),
                 ],
@@ -148,11 +147,17 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuButton(IconData icon, String text) {
+  Widget _buildMenuButton(IconData icon, String text, dynamic context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: () {
+          if (text == "내 활동") {
+            Navigator.pushNamed(context, '/mypage');
+          } else if (text == "관심있는 질문") {
+            Navigator.pushNamed(context, '/liked');
+          }
+        },
         icon: Icon(icon),
         label: Text(text),
         style: ElevatedButton.styleFrom(

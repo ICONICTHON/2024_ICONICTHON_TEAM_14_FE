@@ -1,27 +1,16 @@
 import 'package:flutter/material.dart';
 import 'havruta_write.dart';
+import 'package:havruta_app/var.dart';
+import 'package:havruta_app/var.dart';
 
-class Havruta extends StatelessWidget {
-  final List<Question> questions = [
-    Question(
-      id: 2,
-      category: '컴퓨터 구성',
-      title: 'Half Adder 구현 관련 질문',
-      content: 'Half Adder를 구성하는 중에 에러가 뜨는데 이유를 모르겠어요.',
-      status: '해결 중',
-      imageUrl: 'assets/images/pic1.png',
-    ),
-    Question(
-      id: 1,
-      category: '신호와 시스템',
-      title: '푸리에 변환 질문',
-      content: '푸리에 변환할때 jw가 무슨 의미인가요?',
-      status: '해결 완료',
-      imageUrl: 'assets/images/pic2.png',
-    ),
-    // 다른 질문을 추가할 수 있습니다.
-  ];
+int k = 0;
 
+class Havruta extends StatefulWidget {
+  @override
+  _HavrutaState createState() => _HavrutaState();
+}
+
+class _HavrutaState extends State<Havruta> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,11 +94,15 @@ class Havruta extends StatelessWidget {
                   border: Border.all(width: 1.8),
                 ),
                 child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HavrutaWrite()),
-                    );
+                  onPressed: () async {
+                    {
+                      // 페이지로 이동하고 돌아올 때까지 대기
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HavrutaWrite()),
+                      );
+                      setState(() {});
+                    }
                   },
                   child: Row(
                     children: [
@@ -153,7 +146,9 @@ class Havruta extends StatelessWidget {
                                 ? Colors.green
                                 : Colors.red),
                       ),
-                      leading: Image.asset(question.imageUrl),
+                      leading: question.imageUrl.isNotEmpty
+                          ? Image.asset(question.imageUrl)
+                          : Text(""),
                     ),
                   ),
                 );
@@ -166,17 +161,26 @@ class Havruta extends StatelessWidget {
   }
 }
 
-class QADetailPage extends StatelessWidget {
+class QADetailPage extends StatefulWidget {
   final Question question;
 
   QADetailPage({required this.question});
 
-  final List<Comment> comments = [
-    Comment(
-        author: '학생A', content: 'jw는 복소수 표현에서 주파수를 나타내는 값이에요.', parentid: 1),
-    Comment(author: '학생B', content: '변환 후 주파수 영역에서 사용되는 값이죠.', parentid: 1),
-    Comment(author: '학생A', content: "더 자세히 보여주실 수 있나요?", parentid: 0),
-  ];
+  @override
+  _QADetailPageState createState() => _QADetailPageState();
+}
+
+class _QADetailPageState extends State<QADetailPage> {
+  final TextEditingController comment1Controller = TextEditingController();
+  final TextEditingController comment2Controller = TextEditingController();
+  final TextEditingController answerController = TextEditingController();
+  bool showAnswerInput = false;
+  @override
+  void initState() {
+    super.initState();
+    k++;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,44 +195,180 @@ class QADetailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${question.category} (${question.status})',
+                '${widget.question.category} ${widget.question.professor} (${widget.question.status})',
                 style: TextStyle(fontSize: 16.0, color: Colors.grey),
               ),
               SizedBox(height: 8.0),
               Text(
-                'Q. ${question.title}',
+                'Q. ${widget.question.title}',
                 style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8.0),
               Text(
-                question.content,
+                widget.question.content,
                 style: TextStyle(fontSize: 16.0),
               ),
               SizedBox(height: 8.0),
-              Image.network(question.imageUrl),
+              widget.question.imageUrl.isNotEmpty
+                  ? Image.network(widget.question.imageUrl)
+                  : Text(""),
               SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.thumb_up_off_alt_rounded),
+                    onPressed: () {
+                      widget.question.good = widget.question.good + 1;
+                      setState(() {});
+                      ();
+                    },
+                  ),
+                  Text(':${widget.question.good}  '),
+                  Icon(Icons.remove_red_eye_outlined),
+                  Text('${widget.question.view + k}'),
+                  IconButton(
+                      onPressed: () {
+                        widget.question.liked = widget.question.liked ^ true;
+                        setState(() {});
+                      },
+                      icon: widget.question.liked
+                          ? Icon(Icons.star)
+                          : Icon(Icons.star_border)),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    showAnswerInput = true;
+                  });
+                },
+                child: Text("답변 작성"),
+              ),
               Divider(),
+              if (showAnswerInput)
+                Column(
+                  children: [
+                    Text(
+                      'A${answersComments.length + 1}. 새로운 답변',
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8.0),
+                    TextField(
+                      controller: answerController,
+                      decoration: InputDecoration(labelText: '답변을 작성하세요'),
+                    ),
+                    SizedBox(height: 8.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (answerController.text.isNotEmpty) {
+                          setState(() {
+                            answerCount++;
+                            answersComments.add([
+                              Comment(
+                                  content: answerController.text,
+                                  parentid: widget.question.id)
+                            ]);
+                          });
+                          answerController.clear();
+                          setState(() {
+                            showAnswerInput = false;
+                          });
+                        }
+                      },
+                      child: Text('답변 등록'),
+                    ),
+                  ],
+                ),
+              SizedBox(height: 16.0),
+
+              // A1 댓글 작성란
               Text(
-                'A1.',
+                'A1. 더 자세히 보여줄 수 있나요?',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
+              SizedBox(height: 18),
+
+              ExpansionTile(
+                title: Text(
+                  '댓글 (${commentsA1.length})',
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                ),
+                children: commentsA1
+                    .asMap()
+                    .map((index, comment) => MapEntry(
+                          index,
+                          ListTile(
+                            title: Text('댓글 ${index + 1}'),
+                            subtitle: Text(comment.content),
+                          ),
+                        ))
+                    .values
+                    .toList(),
+              ),
+              SizedBox(height: 16.0),
+              TextField(
+                controller: comment1Controller,
+                decoration: InputDecoration(labelText: '댓글을 작성하세요'),
+              ),
               SizedBox(height: 8.0),
+              ElevatedButton(
+                onPressed: () {
+                  if (comment1Controller.text.isNotEmpty) {
+                    final newComment = Comment(
+                      content: comment1Controller.text,
+                      parentid: widget.question.id,
+                    );
+                    setState(() {
+                      commentsA1.add(newComment);
+                    });
+                    comment1Controller.clear();
+                  }
+                },
+                child: Text('댓글 등록'),
+              ),
               Text(
-                comments[question.id].content,
-                style: TextStyle(fontSize: 16.0),
+                'A2. 주파수는 어떻게 분석할 수 있나요?',
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8.0),
               ExpansionTile(
                 title: Text(
-                  '댓글 (${comments.length})',
+                  '댓글 (${commentsA2.length})',
                   style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                 ),
-                children: comments
-                    .map((comment) => ListTile(
-                          title: Text(comment.author),
-                          subtitle: Text(comment.content),
+                children: commentsA2
+                    .asMap()
+                    .map((index, comment) => MapEntry(
+                          index,
+                          ListTile(
+                            title: Text('댓글 ${index + 1}'),
+                            subtitle: Text(comment.content),
+                          ),
                         ))
+                    .values
                     .toList(),
+              ),
+              TextField(
+                controller: comment2Controller,
+                decoration: InputDecoration(labelText: '댓글을 작성하세요'),
+              ),
+              SizedBox(height: 8.0),
+              ElevatedButton(
+                onPressed: () {
+                  if (comment2Controller.text.isNotEmpty) {
+                    final newComment = Comment(
+                      content: comment2Controller.text,
+                      parentid: 2,
+                    );
+                    setState(() {
+                      commentsA2.add(newComment);
+                    });
+                    comment2Controller.clear();
+                  }
+                },
+                child: Text('댓글 등록'),
               ),
             ],
           ),
@@ -245,6 +385,10 @@ class Question {
   final String status;
   final String imageUrl;
   final int id;
+  final String professor;
+  int good;
+  int view;
+  bool liked;
 
   Question({
     required this.category,
@@ -253,16 +397,18 @@ class Question {
     required this.status,
     required this.imageUrl,
     required this.id,
+    required this.professor,
+    required this.good,
+    required this.view,
+    required this.liked,
   });
 }
 
 class Comment {
-  final String author;
   final String content;
   final int parentid;
 
   Comment({
-    required this.author,
     required this.content,
     required this.parentid,
   });

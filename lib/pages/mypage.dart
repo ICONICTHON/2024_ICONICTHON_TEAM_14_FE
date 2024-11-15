@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:havruta_app/var.dart';
+import 'havruta/havruta.dart';
 
 class MyPage extends StatelessWidget {
   @override
@@ -32,25 +34,40 @@ class MyPage extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
-            Card(
-              child: ListTile(
-                title: Text('컴퓨터 구성'),
-                subtitle: Text('Half Adder 구현 관련 질문'),
-                trailing: Text('해결 중', style: TextStyle(color: Colors.red)),
-              ),
-            ),
-            Card(
-              child: ListTile(
-                title: Text('신호와 시스템'),
-                subtitle: Text('라플라스 변환 관련 질문'),
-                trailing: Text('해결 완료', style: TextStyle(color: Colors.blue)),
-              ),
-            ),
-            Card(
-              child: ListTile(
-                title: Text('신호와 시스템'),
-                subtitle: Text('4X1 MUX 구현 오류 해결'),
-                trailing: Text('교수님 답변', style: TextStyle(color: Colors.green)),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(8.0),
+                itemCount: questions.length,
+                itemBuilder: (context, index) {
+                  final question = questions[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              QADetailPage(question: question),
+                        ),
+                      );
+                    },
+                    child: Card(
+                      child: ListTile(
+                        title: Text(question.title),
+                        subtitle: Text(question.content),
+                        trailing: Text(
+                          question.status,
+                          style: TextStyle(
+                              color: question.status == '해결 완료'
+                                  ? Colors.green
+                                  : Colors.red),
+                        ),
+                        leading: question.imageUrl.isNotEmpty
+                            ? Image.asset(question.imageUrl)
+                            : Text(""),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             SizedBox(height: 30),

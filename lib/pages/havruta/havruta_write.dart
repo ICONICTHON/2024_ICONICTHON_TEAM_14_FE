@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:havruta_app/pages/havruta/havruta.dart';
+import 'package:havruta_app/var.dart';
 
 List<String> professorList = [
   '김선주 교수님',
@@ -38,6 +40,9 @@ class HavrutaWrite extends StatefulWidget {
 class _HavrutaWriteState extends State<HavrutaWrite> {
   final TextEditingController professorController = TextEditingController();
   final TextEditingController subjectController = TextEditingController();
+  final TextEditingController commentController = TextEditingController();
+  final TextEditingController contentController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
   List<Item> _data = generateItems();
   int? selectedProfessorIndex;
   List<String>? subjects;
@@ -82,8 +87,8 @@ class _HavrutaWriteState extends State<HavrutaWrite> {
                                       selectedProfessorIndex = entry.key;
                                       // 해당 교수님에 대한 과목을 설정합니다.
                                       subjects = [
-                                        professorList[entry.key],
-                                        professorList[entry.key + 1]
+                                        subjectList[entry.key],
+                                        subjectList[entry.key + 1]
                                       ];
                                       // 교수님 선택 후, 교수님 목록을 닫습니다.
                                       _data[0].isExpanded = false;
@@ -146,6 +151,7 @@ class _HavrutaWriteState extends State<HavrutaWrite> {
               Container(
                 width: 600,
                 child: TextField(
+                  controller: titleController,
                   decoration: InputDecoration(labelText: "제목"),
                 ),
               ),
@@ -159,6 +165,7 @@ class _HavrutaWriteState extends State<HavrutaWrite> {
                   ),
                 ),
                 child: TextField(
+                  controller: contentController,
                   decoration: InputDecoration(
                     alignLabelWithHint: true,
                     labelText: "내용",
@@ -169,11 +176,34 @@ class _HavrutaWriteState extends State<HavrutaWrite> {
                   maxLength: null,
                 ),
               ),
-              SizedBox(
-                height: 30,
-              ),
               TextButton(
                 onPressed: () {
+                  print([
+                    professorController.text.isNotEmpty,
+                    subjectController.text.isNotEmpty,
+                    titleController.text.isNotEmpty,
+                    contentController.text.isNotEmpty
+                  ]);
+                  if (contentController.text.isNotEmpty &&
+                      professorController.text.isNotEmpty &&
+                      subjectController.text.isNotEmpty &&
+                      titleController.text.isNotEmpty &&
+                      professorController.text.isNotEmpty) {
+                    questions.add(
+                      Question(
+                        category: subjectController.text,
+                        title: titleController.text,
+                        content: contentController.text,
+                        status: "해결 중",
+                        imageUrl: "",
+                        id: questions.length,
+                        professor: professorController.text,
+                        good: 0,
+                        view: 0,
+                        liked: false,
+                      ),
+                    );
+                  }
                   Navigator.pop(context);
                 },
                 child: Text(
