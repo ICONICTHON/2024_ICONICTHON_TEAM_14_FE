@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:havruta_app/var.dart';
 
-import '../var.dart';
 import 'havruta/havruta.dart';
 
-// 질문 객체 클래스
 class Question {
   final String title;
   final String content;
@@ -11,7 +10,6 @@ class Question {
   Question({required this.title, required this.content});
 }
 
-// 질문 상세 페이지
 class QuestionDetailPage extends StatelessWidget {
   final Question question;
 
@@ -51,7 +49,6 @@ class MyCoursePage extends StatefulWidget {
 }
 
 class _MyCoursePageState extends State<MyCoursePage> {
-  // 대학 목록
   List<String> universities = [
     '불교대학',
     '문과대학',
@@ -66,8 +63,6 @@ class _MyCoursePageState extends State<MyCoursePage> {
     '사범대학',
     '약학대학',
   ];
-
-  // 과목과 해당 과목의 질문 제목과 내용 관리
   Map<String, Map<String, List<Question>>> courseQuestions = {
     '불교대학': {
       '인도의 철학과 문화': [
@@ -135,23 +130,19 @@ class _MyCoursePageState extends State<MyCoursePage> {
     },
   };
 
-  String? selectedUniversity = '불교대학'; // 기본값: 불교대학
-  String? selectedCourse; // 선택된 과목
+  String? selectedUniversity = '불교대학';
+  String? selectedCourse;
 
   @override
   void initState() {
     super.initState();
-    selectedCourse =
-        courseQuestions[selectedUniversity!]!.keys.first; // 기본값: 첫 번째 과목
+    selectedCourse = courseQuestions[selectedUniversity!]!.keys.first;
   }
 
-  // 대학 선택 시 해당 대학 과목 목록 필터링
   void _onUniversityChanged(String? newValue) {
     setState(() {
       selectedUniversity = newValue;
-      selectedCourse = courseQuestions[selectedUniversity!]!
-          .keys
-          .first; // 새 대학에 맞는 첫 번째 과목을 선택
+      selectedCourse = courseQuestions[selectedUniversity!]!.keys.first;
     });
   }
 
@@ -164,151 +155,115 @@ class _MyCoursePageState extends State<MyCoursePage> {
         automaticallyImplyLeading: false,
         actions: [
           TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/home');
-            },
-            child: Text("홈", style: TextStyle(color: Colors.white)),
-          ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              child: Text("홈", style: TextStyle(color: Colors.white))),
           SizedBox(width: 30),
           TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/course');
-            },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-            ),
-            child: Text("수강 과목", style: TextStyle(color: Colors.black)),
-          ),
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/course');
+              },
+              child: Text("수강 과목", style: TextStyle(color: Colors.black))),
           SizedBox(width: 30),
           TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/havruta');
-            },
-            child: Text("하브루타", style: TextStyle(color: Colors.white)),
-          ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/havruta');
+              },
+              child: Text("하브루타", style: TextStyle(color: Colors.white))),
           SizedBox(width: 30),
           TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/professor');
-            },
-            child: Text("교수님 답변", style: TextStyle(color: Colors.white)),
-          ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/professor');
+              },
+              child: Text("교수님 답변", style: TextStyle(color: Colors.white))),
           SizedBox(width: 30),
           TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/mypage');
-            },
-            child: Text("내 정보", style: TextStyle(color: Colors.white)),
-          ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/mypage');
+              },
+              child: Text("내 정보", style: TextStyle(color: Colors.white))),
           SizedBox(width: 300),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 70),
-              // 대학 선택 Dropdown
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 30),
+            Container(
+              padding: EdgeInsets.all(16),
+              color: Color(0xffDB7223),
+              child: Text(
+                "내 수강 과목",
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('대학 선택: ', style: TextStyle(fontSize: 16)),
-                  DropdownButton<String>(
-                    value: selectedUniversity,
-                    onChanged: _onUniversityChanged,
-                    items: universities
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
+                  Expanded(
+                    child: ListView(
+                      children: courseQuestions[selectedUniversity!]!
+                          .keys
+                          .map((course) {
+                        return GestureDetector(
+                          onTap: () => setState(() => selectedCourse = course),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 16),
+                            margin: EdgeInsets.only(bottom: 10),
+                            color: Colors.orange[100],
+                            child: Text(
+                              course,
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  SizedBox(width: 20),
+                  Expanded(
+                    child: selectedCourse != null
+                        ? ListView(
+                            children: courseQuestions[selectedUniversity]![
+                                    selectedCourse!]!
+                                .map((question) {
+                              return ListTile(
+                                title: Text(question.title),
+                                onTap: () {
+                                  for (int i = 0; i < 200; i++) {
+                                    if (question.title == questions[i].title) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => QADetailPage(
+                                              question: questions[i]),
+                                        ),
+                                      );
+                                    }
+                                  }
+                                },
+                              );
+                            }).toList(),
+                          )
+                        : Container(),
                   ),
                 ],
               ),
-              SizedBox(height: 80),
-              // 내 수강 과목 헤더
-              Container(
-                padding: EdgeInsets.all(16),
-                color: Color(0xffDB7223),
-                child: Column(
-                  children: [
-                    Text(
-                      "내 수강 과목",
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    SizedBox(height: 20),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              // 과목명 선택 리스트
-              Column(
-                children:
-                    courseQuestions[selectedUniversity!]!.keys.map((course) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedCourse = course;
-                      });
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                      margin: EdgeInsets.only(bottom: 10),
-                      color: Colors.orange[100],
-                      child: Text(
-                        course,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-              // 선택된 과목에 해당하는 질문 목록
-              if (selectedCourse != null)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "질문 제목",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 30),
-                    ...courseQuestions[selectedUniversity]![selectedCourse!]!
-                        .map((question) {
-                      return ListTile(
-                        title: Text(question.title),
-                        onTap: () {
-                          // 질문 제목을 클릭했을 때 상세 페이지로 이동
-                          for (int i = 0; i < 14; i++) {
-                            if (question.title == questions[i].title) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => QADetailPage(
-                                    question: questions[i],
-                                  ),
-                                ),
-                              );
-                            }
-                          }
-                        },
-                      );
-                    }).toList(),
-                  ],
-                ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

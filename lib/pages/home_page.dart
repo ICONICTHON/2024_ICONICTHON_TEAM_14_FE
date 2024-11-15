@@ -192,7 +192,12 @@ class HomePage extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(subject, style: TextStyle(fontWeight: FontWeight.bold)),
+          child: RichText(
+            text: TextSpan(
+              text: subject,
+              style: TextStyle(fontWeight: FontWeight.bold, fontFamily: "동국체"),
+            ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

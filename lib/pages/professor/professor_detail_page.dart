@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:havruta_app/var.dart';
+import '../havruta/havruta.dart';
 import 'professor_question_detail_page.dart';
-// QuestionDetailPage import 추가
 
-class ProfessorDetailPage extends StatelessWidget {
+// QuestionDetailPage import 추가
+class ProfessorDetailPage extends StatefulWidget {
   final String professorName;
 
   ProfessorDetailPage({required this.professorName});
+
+  @override
+  ProfessorDetailPageState createState() => ProfessorDetailPageState();
+}
+
+class ProfessorDetailPageState extends State<ProfessorDetailPage> {
+  late final String professorName;
+
+  @override
+  void initState() {
+    super.initState();
+    professorName = widget.professorName;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +113,14 @@ class ProfessorDetailPage extends StatelessWidget {
 
   Widget _buildQuestionListItem(String title, String content,
       String professorName, String subjectName, BuildContext context) {
+    int good = 0;
+    int view = 0;
+    for (int i = 0; i < 18; i++) {
+      if (title == questions[i].title) {
+        good = questions[i].good;
+        view = questions[i].view;
+      }
+    }
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8.0),
       elevation: 3,
@@ -121,32 +144,34 @@ class ProfessorDetailPage extends StatelessWidget {
               children: [
                 Icon(Icons.thumb_up, size: 14),
                 SizedBox(width: 5),
-                Text('추천수: 10'),
+                Text('추천수: ${good}'),
                 SizedBox(width: 20),
                 Icon(Icons.visibility, size: 14),
                 SizedBox(width: 5),
-                Text('조회수: 42'),
+                Text('조회수: ${view}'),
                 SizedBox(width: 20),
                 Icon(Icons.comment, size: 14),
                 SizedBox(width: 5),
-                Text('답변수: 2'),
+                Text('답변수: ${answerCount}'),
               ],
             ),
             // 질문 클릭 시 QuestionDetailPage로 이동
             TextButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfessorQuestionDetailPage(
-                      subjectName: subjectName,
-                      professorName: professorName,
-                      questionTitle: title,
-                      questionContent: content,
-                      answerContent: '이것은 답변 내용입니다.',
-                    ),
-                  ),
-                );
+                for (int i = 0; i < 60; i++) {
+                  if (title == questions[i].title) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QADetailPage(
+                          question: questions[i],
+                        ),
+                      ),
+                    );
+                    setState(() {});
+                    break;
+                  }
+                }
               },
               child: Text("자세히 보기", style: TextStyle(color: Colors.blue)),
             ),
